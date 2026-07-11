@@ -53,7 +53,7 @@
     background:var(--bg);transition:transform .15s;}
   .set.on .sw{background:var(--accent2);}
   .set.on .sw::after{transform:translateX(16px);}
-  .preview{font-size:12px;color:var(--dim);letter-spacing:.08em;padding-left:2px;}
+  .preview{font-size:12px;color:var(--dim);letter-spacing:.06em;padding-left:2px;line-height:1.7;word-spacing:.15em;}
   .set.on .preview{color:var(--accent);}
 
   footer{border-top:1px solid var(--line);padding:14px 18px 22px;
@@ -283,19 +283,23 @@ function snapToGrid(c){
 
 /* ---------- notation sets (source: jperm.net/3x3/moves) ---------- */
 const SETS = {
-  faces:{label:'Face turns', sub:'R L U D F B', preview:"R  U  F", default:true,
+  faces:{label:'Face turns', sub:'clockwise quarter turns', default:true,
     moves:['R','L','U','D','F','B']},
-  prime:{label:'Inverses', sub:"counter-clockwise '", preview:"R'  U'  F'", default:false,
+  prime:{label:'Inverses', sub:"counter-clockwise ( ' )", default:false,
     moves:["R'","L'","U'","D'","F'","B'"]},
-  dbl:{label:'Doubles', sub:'180\u00b0 turns', preview:"R2  U2", default:false,
-    moves:['R2','L2','U2','D2','F2','B2']},
-  wideLower:{label:'Wide (lowercase)', sub:'two layers: r u f', preview:"r  u  f", default:false,
+  dbl:{label:'Doubles', sub:'every 180\u00b0 turn', default:false,
+    moves:['R2','L2','U2','D2','F2','B2',
+           'M2','E2','S2',
+           'r2','l2','u2','d2','f2','b2',
+           'Rw2','Lw2','Uw2','Dw2','Fw2','Bw2',
+           'x2','y2','z2']},
+  wideLower:{label:'Wide (lowercase)', sub:'two layers', default:false,
     moves:['r','l','u','d','f','b',"r'","l'","u'","d'","f'","b'"]},
-  wideW:{label:'Wide (Rw style)', sub:'two layers: Rw Uw', preview:"Rw  Uw", default:false,
+  wideW:{label:'Wide (Rw style)', sub:'two layers', default:false,
     moves:['Rw','Lw','Uw','Dw','Fw','Bw',"Rw'","Lw'","Uw'","Dw'","Fw'","Bw'"]},
-  slice:{label:'Slices', sub:'M E S middle layers', preview:"M  E  S", default:false,
+  slice:{label:'Slices', sub:'middle layers', default:false,
     moves:['M','E','S',"M'","E'","S'"]},
-  rot:{label:'Cube rotations', sub:'whole cube: x y z', preview:"x  y  z", default:false,
+  rot:{label:'Cube rotations', sub:'whole cube', default:false,
     moves:['x','y','z',"x'","y'","z'"]},
 };
 const NAMES = {R:'Right',L:'Left',U:'Up',D:'Down',F:'Front',B:'Back',
@@ -329,7 +333,7 @@ Object.keys(SETS).forEach(key=>{
       </div>
       <div class="sw"></div>
     </div>
-    <div class="preview">${s.preview}</div>`;
+    <div class="preview">${s.moves.join("  ")}</div>`;
   wrap.querySelector('.set-head').onclick = ()=>{
     if(active.has(key)) active.delete(key); else active.add(key);
     if(active.size===0) active.add(key); // never empty
